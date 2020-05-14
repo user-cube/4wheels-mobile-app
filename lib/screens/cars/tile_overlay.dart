@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fourwheels/models/car.dart';
-import 'package:fourwheels/screens/car_detail/car_detail.dart';
 import 'package:fourwheels/widgets/car_tile.dart';
 
 class TileOverlay extends StatelessWidget {
