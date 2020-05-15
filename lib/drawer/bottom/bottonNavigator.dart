@@ -63,7 +63,9 @@ class DataSearch extends SearchDelegate<String> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {}
+  Widget buildResults(BuildContext context) {
+    return null;
+  }
 
   @override
   Widget buildSuggestions(BuildContext context) {
