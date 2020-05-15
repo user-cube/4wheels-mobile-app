@@ -1,4 +1,4 @@
-# Frontend
+# Mobile App
 O 4Wheels é um sistema de comércio online que tem por base a compra e venda de carros.<br>
 Os utilizadres deste mercado online podem, de uma forma simples e intuitiva, adicionar carros para venda bem como comprar os carros já disponíveis no mercado.
 
