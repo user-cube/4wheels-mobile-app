@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fourwheels/drawer/bottom/bottonNavigator.dart';
 import 'package:fourwheels/models/car.dart';
+import 'package:fourwheels/style.dart';
 import '../../app.dart';
 import '../../widgets/image_banner.dart';
 import 'tile_overlay.dart';
@@ -10,27 +12,26 @@ class Cars extends StatelessWidget {
     final cars = Car.fetchAll();
     return Scaffold(
       appBar: AppBar(
-        title: Text('4Wheels Cars'),
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              label: Text(
-                'Search',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ))
-        ],
+        title: Center(
+          child: Text(
+            '4Wheels Cars',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+              fontFamily: FontNameDefault,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        backgroundColor: Colors.blue,
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         itemCount: cars.length,
         itemBuilder: (context, index) => _itemBuilder(context, cars[index]),
       ),
+      bottomNavigationBar: BottomNavigatorBar(),
     );
   }
 
