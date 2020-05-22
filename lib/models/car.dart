@@ -1,22 +1,92 @@
 import 'package:fourwheels/models/car_fact.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async'; 
+import 'dart:convert'; 
 
 class Car {
   final int id;
-  final String name;
-  final String imagePath;
-  final String price;
-  final String shortDesc;
-  final List<CarFact> facts;
+  final String photo;
+  final String brand;
+  final String model;
+  final int year;
+  final int month;
+  final String description;
+  final int kilometers;
+  final String typeOfFuel;
+  final String ownerMail;
+  final double price;
+
+
+  //final String imagePath;
+  //final String price;
+  //final String shortDesc;
+  //final List<CarFact> facts;
 
   Car(
       {this.id,
-      this.name,
-      this.imagePath,
-      this.price,
-      this.shortDesc,
-      this.facts});
+      this.photo,
+      this.brand,
+      this.model,
+      this.year,
+      this.month,
+      this.description,
+      this.kilometers,
+      this.typeOfFuel,
+      this.ownerMail,
+      this.price});
 
-  static List<Car> fetchAll() {
+  factory Car.fromJson(Map<String, dynamic> json) {
+    return Car(
+      id: json['id'],
+      photo: json['photo'],
+      brand: json['brand'],
+      model: json['model'],
+      year: json['year'],
+      month: json['month'],
+      description: json['description'],
+      kilometers: json['kilometers'],
+      typeOfFuel: json['typeOfFuel'],
+      ownerMail: json['ownerMail'],
+      price: json['price']
+    );
+  }
+
+  List<Car> parseCars(String responseBody) { 
+   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>(); 
+   return parsed.map<Car>((json) =>Car.fromJson(json)).toList(); 
+  }
+
+  Car parseUniqueCar(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Car>((json) => Car.fromJson(json));
+  }
+
+  
+  Future<List<Car>> fetchApiCars() async { 
+   final response = await http.get('https://tqsapitests.herokuapp.com/car/'); 
+   if (response.statusCode == 200) {
+     return parseCars(response.body);
+   } else { 
+      throw Exception('Unable to fetch products from the REST API');
+   }
+   }
+
+  Future<Car> fetchCarId(int id) async { 
+   String sid = id.toString();
+   final response = await http.get('https://tqsapitests.herokuapp.com/car/' + sid);
+   print('ID ' + sid); 
+   if (response.statusCode == 200) {
+     print('AQUIII' + Car.fromJson(json.decode(response.body)).toString());
+     return Car.fromJson(json.decode(response.body));
+     //return parseUniqueCar(response.body);
+   } else { 
+      throw Exception('Unable to fetch products from the REST API');
+   } 
+}
+}
+
+
+  /*static List<Car> fetchAll() {
     return [
       Car(
           id: 1,
@@ -55,14 +125,14 @@ class Car {
                 'A segurança é o aspeto mais importante do design geral do Model 3. A estrutura metálica é uma combinação de alumínio e aço para proporcionar a máxima robustez em todas as áreas. Num teste de resistência do tejadilho, o Model 3 apresentou uma resistência de quatro vezes a sua própria massa, mesmo com um tejadilho completamente panorâmico: é o mesmo peso de dois elefantes africanos adultos.'),
           ]),
     ];
-  }
+  }*/
 
-  static Car fetchById(int carID) {
+  /*static Car fetchById(int carID) {
     // fecth all Cars;
     // iterate them and when we find the Car
     // with the ID we want, return it immediately
 
-    List<Car> cars = Car.fetchAll();
+    List<Car> cars = Car.();
     for (var i = 0; i < cars.length; i++) {
       if (cars[i].id == carID) {
         return cars[i];
@@ -70,4 +140,4 @@ class Car {
     }
     return null;
   }
-}
+}*/

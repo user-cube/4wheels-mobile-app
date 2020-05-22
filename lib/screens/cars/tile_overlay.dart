@@ -15,7 +15,7 @@ class TileOverlay extends StatelessWidget {
       children: [
         Container(
             padding: EdgeInsets.symmetric(vertical: 5.0),
-            decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+            decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
             child: CarTile(
               car: car,
               darkTheme: true,
