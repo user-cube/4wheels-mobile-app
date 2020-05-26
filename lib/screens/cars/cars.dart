@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fourwheels/drawer/bottom/bottonNavigator.dart';
 import 'package:fourwheels/models/car.dart';
 import 'package:fourwheels/style.dart';
+import 'package:fourwheels/widgets/loading.dart';
 import 'package:logger/logger.dart';
 import '../../app.dart';
 import '../../models/car.dart';
@@ -14,8 +15,8 @@ class Cars extends StatefulWidget {
 }
 
 class _CarsState extends State<Cars> {
-  Future<List<Car>> futureCar;
   final Car car = new Car();
+  Future<List<Car>> futureCar;
   var logger = Logger();
 
   @override
@@ -48,38 +49,43 @@ class _CarsState extends State<Cars> {
         child: FutureBuilder(
           future: futureCar,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  child: Container(
-                    height: 245,
-                    child: Stack(children: [
-                      ImageBanner(
-                          assetPath: snapshot.data[index].photo, height: 245.0),
-                      TileOverlay(snapshot.data[index])
-                    ]),
-                  ),
-                  onTap: () {
-                    logger.i("clicked");
-                    _onLocationTap(
-                      context,
-                      snapshot.data[index].id,
-                      snapshot.data[index].brand,
-                      snapshot.data[index].model,
-                      snapshot.data[index].year.toString(),
-                      snapshot.data[index].month.toString(),
-                      snapshot.data[index].kilometers.toString(),
-                      snapshot.data[index].typeOfFuel,
-                      snapshot.data[index].price.toString(),
-                      snapshot.data[index].description,
-                      snapshot.data[index].photo,
-                      snapshot.data[index],
-                    );
-                  },
-                );
-              },
-            );
+            return (snapshot.data == null)
+                ? Loading()
+                : ListView.builder(
+                    itemCount: (snapshot.data.length == null)
+                        ? 0
+                        : snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        child: Container(
+                          height: 245,
+                          child: Stack(children: [
+                            ImageBanner(
+                                assetPath: snapshot.data[index].photo,
+                                height: 245.0),
+                            TileOverlay(snapshot.data[index])
+                          ]),
+                        ),
+                        onTap: () {
+                          logger.i("clicked");
+                          _onLocationTap(
+                            context,
+                            snapshot.data[index].id,
+                            snapshot.data[index].brand,
+                            snapshot.data[index].model,
+                            snapshot.data[index].year.toString(),
+                            snapshot.data[index].month.toString(),
+                            snapshot.data[index].kilometers.toString(),
+                            snapshot.data[index].typeOfFuel,
+                            snapshot.data[index].price.toString(),
+                            snapshot.data[index].description,
+                            snapshot.data[index].photo,
+                            snapshot.data[index],
+                          );
+                        },
+                      );
+                    },
+                  );
           },
         ),
       ),
