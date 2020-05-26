@@ -1,41 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:fourwheels/widgets/car_tile.dart';
-import 'text_section.dart';
+import 'package:logger/logger.dart';
 import '../../widgets/image_banner.dart';
 import 'package:fourwheels/models/car.dart';
 import 'package:fourwheels/style.dart';
-import 'package:fourwheels/screens/cars/tile_overlay.dart';
 import 'package:fourwheels/drawer/bottom/bottonNavigator.dart';
 
-import 'text_section.dart';
-
-
 class CarDetail extends StatefulWidget {
-  final int _carID;
-  CarDetail(this._carID);
+  final int carID;
+  final String brand;
+  final String model;
+  final String year;
+  final String month;
+  final String km;
+  final String typeOfFuel;
+  final String price;
+  final String description;
+  final String photo;
+  final Car car;
+
+  CarDetail(this.carID, this.brand, this.model, this.year, this.month, this.km,
+      this.typeOfFuel, this.price, this.description, this.photo, this.car);
 
   @override
-  _CarDetailState createState() => _CarDetailState(_carID);
+  _CarDetailState createState() => _CarDetailState(carID, brand, model, year,
+      month, km, typeOfFuel, price, description, photo, car);
 }
 
 class _CarDetailState extends State<CarDetail> {
-  final int _carID;
-  _CarDetailState(this._carID);
+  final int carID;
+  final String brand;
+  final String model;
+  final String year;
+  final String month;
+  final String km;
+  final String typeOfFuel;
+  final String price;
+  final String description;
+  final String photo;
+  final Car car;
 
-  Future<Car> futureCarid;
-  final Car car = new Car();
+  _CarDetailState(
+      this.carID,
+      this.brand,
+      this.model,
+      this.year,
+      this.month,
+      this.km,
+      this.typeOfFuel,
+      this.price,
+      this.description,
+      this.photo,
+      this.car);
+
+  var logger = Logger();
 
   @override
   void initState() {
     super.initState();
-    futureCarid = car.fetchCarId(_carID);
-    print('INIT STAT' + futureCarid.toString());
   }
-
 
   @override
   Widget build(BuildContext context) {
-
+    logger.i(carID);
     //final cars = Car.fetchAll();
     return Scaffold(
       appBar: AppBar(
@@ -52,51 +79,22 @@ class _CarDetailState extends State<CarDetail> {
           ),
         ),
         backgroundColor: Colors.blue,
-        automaticallyImplyLeading: false,
-      ),
-      body: Container(
-        child: FutureBuilder(
-          future: futureCarid,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ImageBanner(assetPath:snapshot.data, height: 245.0),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 4.0),
-                    child: CarTile(
-                      car: snapshot.data,
-                      )
-                    ),
-                    ListView(
-                      children: <Widget>[
-                        ListTile(
-                        title: Text(snapshot.data.brand),
-                        ),
-                        ListTile(
-                          title: Text(snapshot.data.model),
-                        ),
-                        ListTile(
-                          title: Text(snapshot.data.year.toString() + '/' + snapshot.data.month.toString()),
-                        ),
-                        ListTile(
-                          title: Text(snapshot.data.kilometers.toString() + ' - ' + snapshot.data.typeOfFuel),
-                        ),
-                        ListTile(
-                          title: Text(snapshot.data.price.toString() + '€'),
-                        ),
-                        ListTile(
-                          title: Text(snapshot.data.description),
-                        ),
-                      ]
-                      )]
-                    ),
-                  );
-          }),
       ),
       bottomNavigationBar: BottomNavigatorBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Row(
+            children: <Widget>[
+              Column(children: <Widget>[
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(carID.toString()),
+                )
+              ])
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

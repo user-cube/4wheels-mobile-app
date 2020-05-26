@@ -1,7 +1,9 @@
 import 'package:fourwheels/models/car_fact.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async'; 
-import 'dart:convert'; 
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:logger/logger.dart';
 
 class Car {
   final int id;
@@ -16,6 +18,7 @@ class Car {
   final String ownerMail;
   final double price;
 
+  var logger = Logger();
 
   //final String imagePath;
   //final String price;
@@ -37,23 +40,22 @@ class Car {
 
   factory Car.fromJson(Map<String, dynamic> json) {
     return Car(
-      id: json['id'],
-      photo: json['photo'],
-      brand: json['brand'],
-      model: json['model'],
-      year: json['year'],
-      month: json['month'],
-      description: json['description'],
-      kilometers: json['kilometers'],
-      typeOfFuel: json['typeOfFuel'],
-      ownerMail: json['ownerMail'],
-      price: json['price']
-    );
+        id: json['id'],
+        photo: json['photo'],
+        brand: json['brand'],
+        model: json['model'],
+        year: json['year'],
+        month: json['month'],
+        description: json['description'],
+        kilometers: json['kilometers'],
+        typeOfFuel: json['typeOfFuel'],
+        ownerMail: json['ownerMail'],
+        price: json['price']);
   }
 
-  List<Car> parseCars(String responseBody) { 
-   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>(); 
-   return parsed.map<Car>((json) =>Car.fromJson(json)).toList(); 
+  List<Car> parseCars(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Car>((json) => Car.fromJson(json)).toList();
   }
 
   Car parseUniqueCar(String responseBody) {
@@ -61,32 +63,31 @@ class Car {
     return parsed.map<Car>((json) => Car.fromJson(json));
   }
 
-  
-  Future<List<Car>> fetchApiCars() async { 
-   final response = await http.get('https://tqsapitests.herokuapp.com/car/'); 
-   if (response.statusCode == 200) {
-     return parseCars(response.body);
-   } else { 
+  Future<List<Car>> fetchApiCars() async {
+    final response = await http.get('https://tqsapitests.herokuapp.com/car/');
+    if (response.statusCode == 200) {
+      return parseCars(response.body);
+    } else {
       throw Exception('Unable to fetch products from the REST API');
-   }
-   }
+    }
+  }
 
-  Future<Car> fetchCarId(int id) async { 
-   String sid = id.toString();
-   final response = await http.get('https://tqsapitests.herokuapp.com/car/' + sid);
-   print('ID ' + sid); 
-   if (response.statusCode == 200) {
-     print('AQUIII' + Car.fromJson(json.decode(response.body)).toString());
-     return Car.fromJson(json.decode(response.body));
-     //return parseUniqueCar(response.body);
-   } else { 
+  Future<Car> fetchCarId(int id) async {
+    String sid = id.toString();
+    final response =
+        await http.get('https://tqsapitests.herokuapp.com/car/' + sid);
+    logger.d(response.statusCode);
+    if (response.statusCode == 200) {
+      logger.d(json.decode(response.body).toString());
+      return Car.fromJson(json.decode(response.body));
+      //return parseUniqueCar(response.body);
+    } else {
       throw Exception('Unable to fetch products from the REST API');
-   } 
-}
+    }
+  }
 }
 
-
-  /*static List<Car> fetchAll() {
+/*static List<Car> fetchAll() {
     return [
       Car(
           id: 1,
@@ -127,7 +128,7 @@ class Car {
     ];
   }*/
 
-  /*static Car fetchById(int carID) {
+/*static Car fetchById(int carID) {
     // fecth all Cars;
     // iterate them and when we find the Car
     // with the ID we want, return it immediately
