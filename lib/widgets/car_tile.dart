@@ -25,13 +25,15 @@ class CarTile extends StatelessWidget {
               car.brand.toUpperCase(),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-              style:
-                  Theme.of(context).textTheme.title.copyWith(color: textColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: textColor),
             ),
             Text(
               //car.price.toUpperCase(),
               car.model.toUpperCase(),
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
             Text(
               //car.shortDesc.toUpperCase(),

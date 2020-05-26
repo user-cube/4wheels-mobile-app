@@ -15,11 +15,6 @@ class Car {
   final String ownerMail;
   final double price;
 
-  //final String imagePath;
-  //final String price;
-  //final String shortDesc;
-  //final List<CarFact> facts;
-
   Car(
       {this.id,
       this.photo,
