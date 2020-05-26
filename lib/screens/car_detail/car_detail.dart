@@ -153,14 +153,14 @@ class _CarDetailState extends State<CarDetail> {
                                 padding: const EdgeInsets.fromLTRB(
                                     16.0, 32.0, 16.0, 4.0),
                                 child: Text(
-                                  "Kilometers",
+                                  "Type of Fuel",
                                   style: Theme.of(context).textTheme.headline6,
                                 )),
                             Container(
                               padding: const EdgeInsets.fromLTRB(
                                   16.0, 10.0, 16.0, 16.0),
                               child: Text(
-                                km,
+                                typeOfFuel,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ),
@@ -192,21 +192,20 @@ class _CarDetailState extends State<CarDetail> {
                                   style: Theme.of(context).textTheme.headline6,
                                 )),
                             Container(
-                                padding: const EdgeInsets.fromLTRB(
-                                    16.0, 10.0, 16.0, 16.0),
-                                child: (km == "0")
-                                    ? Text(
-                                        "--",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2,
-                                      )
-                                    : Text(
-                                        year,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2,
-                                      )),
+                              padding: const EdgeInsets.fromLTRB(
+                                  16.0, 10.0, 16.0, 16.0),
+                              child: (km == "0")
+                                  ? Text(
+                                      "--",
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    )
+                                  : Text(
+                                      year,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    ),
+                            ),
                           ],
                         ),
                         Column(
@@ -244,16 +243,23 @@ class _CarDetailState extends State<CarDetail> {
                                 padding: const EdgeInsets.fromLTRB(
                                     16.0, 32.0, 16.0, 4.0),
                                 child: Text(
-                                  "Type of Fuel",
+                                  "Kilometers",
                                   style: Theme.of(context).textTheme.headline6,
                                 )),
                             Container(
                               padding: const EdgeInsets.fromLTRB(
                                   16.0, 10.0, 16.0, 16.0),
-                              child: Text(
-                                typeOfFuel,
-                                style: Theme.of(context).textTheme.bodyText2,
-                              ),
+                              child: (km == "0")
+                                  ? Text(
+                                      "--",
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    )
+                                  : Text(
+                                      km,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    ),
                             ),
                           ],
                         )
