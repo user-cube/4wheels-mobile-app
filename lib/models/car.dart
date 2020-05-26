@@ -1,9 +1,6 @@
-import 'package:fourwheels/models/car_fact.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:logger/logger.dart';
 
 class Car {
   final int id;
@@ -17,8 +14,6 @@ class Car {
   final String typeOfFuel;
   final String ownerMail;
   final double price;
-
-  var logger = Logger();
 
   //final String imagePath;
   //final String price;
@@ -56,11 +51,6 @@ class Car {
   List<Car> parseCars(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<Car>((json) => Car.fromJson(json)).toList();
-  }
-
-  Car parseUniqueCar(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<Car>((json) => Car.fromJson(json));
   }
 
   Future<List<Car>> fetchApiCars() async {

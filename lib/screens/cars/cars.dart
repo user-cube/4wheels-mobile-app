@@ -3,7 +3,6 @@ import 'package:fourwheels/drawer/bottom/bottonNavigator.dart';
 import 'package:fourwheels/models/car.dart';
 import 'package:fourwheels/style.dart';
 import 'package:fourwheels/widgets/loading.dart';
-import 'package:logger/logger.dart';
 import '../../app.dart';
 import '../../models/car.dart';
 import '../../widgets/image_banner.dart';
@@ -17,7 +16,6 @@ class Cars extends StatefulWidget {
 class _CarsState extends State<Cars> {
   final Car car = new Car();
   Future<List<Car>> futureCar;
-  var logger = Logger();
 
   @override
   void initState() {
@@ -27,7 +25,6 @@ class _CarsState extends State<Cars> {
 
   @override
   Widget build(BuildContext context) {
-    //final cars = Car.fetchAll();
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -67,7 +64,6 @@ class _CarsState extends State<Cars> {
                           ]),
                         ),
                         onTap: () {
-                          logger.i("clicked");
                           _onLocationTap(
                             context,
                             snapshot.data[index].id,

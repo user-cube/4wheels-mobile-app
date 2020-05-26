@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fourwheels/screens/car_detail/text_section.dart';
 import 'package:fourwheels/widgets/car_tile.dart';
-import 'package:logger/logger.dart';
 import '../../widgets/image_banner.dart';
 import 'package:fourwheels/models/car.dart';
 import 'package:fourwheels/style.dart';
@@ -54,8 +53,6 @@ class _CarDetailState extends State<CarDetail> {
       this.photo,
       this.car);
 
-  var logger = Logger();
-
   @override
   void initState() {
     super.initState();
@@ -63,8 +60,6 @@ class _CarDetailState extends State<CarDetail> {
 
   @override
   Widget build(BuildContext context) {
-    logger.i(carID);
-    //final cars = Car.fetchAll();
     return Scaffold(
       appBar: AppBar(
         title: Center(
