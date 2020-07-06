@@ -22,18 +22,22 @@ class CarTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              car.name.toUpperCase(),
+              car.brand.toUpperCase(),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-              style:
-                  Theme.of(context).textTheme.title.copyWith(color: textColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: textColor),
             ),
             Text(
-              car.price.toUpperCase(),
-              style: Theme.of(context).textTheme.subtitle,
+              //car.price.toUpperCase(),
+              car.model.toUpperCase(),
+              style: Theme.of(context).textTheme.subtitle2,
             ),
             Text(
-              car.shortDesc.toUpperCase(),
+              //car.shortDesc.toUpperCase(),
+              car.typeOfFuel.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
                   .caption

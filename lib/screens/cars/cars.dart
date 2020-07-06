@@ -2,14 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:fourwheels/drawer/bottom/bottonNavigator.dart';
 import 'package:fourwheels/models/car.dart';
 import 'package:fourwheels/style.dart';
+import 'package:fourwheels/widgets/loading.dart';
 import '../../app.dart';
+import '../../models/car.dart';
 import '../../widgets/image_banner.dart';
 import 'tile_overlay.dart';
 
-class Cars extends StatelessWidget {
+class Cars extends StatefulWidget {
+  @override
+  _CarsState createState() => _CarsState();
+}
+
+class _CarsState extends State<Cars> {
+  final Car car = new Car();
+  Future<List<Car>> futureCar;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCar = car.fetchApiCars();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final cars = Car.fetchAll();
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -27,34 +42,83 @@ class Cars extends StatelessWidget {
         backgroundColor: Colors.blue,
         automaticallyImplyLeading: false,
       ),
-      body: ListView.builder(
-        itemCount: cars.length,
-        itemBuilder: (context, index) => _itemBuilder(context, cars[index]),
+      body: Container(
+        child: FutureBuilder(
+          future: futureCar,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return (snapshot.data == null)
+                ? Loading()
+                : ListView.builder(
+                    itemCount: (snapshot.data.length == null)
+                        ? 0
+                        : snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        child: Container(
+                          height: 245,
+                          child: Stack(children: [
+                            ImageBanner(
+                                assetPath: snapshot.data[index].photo,
+                                height: 245.0),
+                            TileOverlay(snapshot.data[index])
+                          ]),
+                        ),
+                        onTap: () {
+                          _onLocationTap(
+                            context,
+                            snapshot.data[index].id,
+                            snapshot.data[index].brand,
+                            snapshot.data[index].model,
+                            snapshot.data[index].year.toString(),
+                            snapshot.data[index].month.toString(),
+                            snapshot.data[index].kilometers.toString(),
+                            snapshot.data[index].typeOfFuel,
+                            snapshot.data[index].price.toString(),
+                            snapshot.data[index].description,
+                            snapshot.data[index].photo,
+                            snapshot.data[index],
+                          );
+                        },
+                      );
+                    },
+                  );
+          },
+        ),
       ),
       bottomNavigationBar: BottomNavigatorBar(),
     );
   }
 
-  _onLocationTap(BuildContext context, int carID) {
+  _onLocationTap(
+    BuildContext context,
+    int carID,
+    String brand,
+    String model,
+    String year,
+    String month,
+    String km,
+    String typeOfFuel,
+    String price,
+    String description,
+    String photo,
+    Car car,
+  ) {
     Navigator.pushNamed(
       context,
       CarDetailRoute,
-      arguments: {"id": carID},
-    );
-  }
-
-  Widget _itemBuilder(BuildContext context, Car car) {
-    return GestureDetector(
-      child: Container(
-        height: 245.0,
-        child: Stack(
-          children: [
-            ImageBanner(assetPath: car.imagePath, height: 245.0),
-            TileOverlay(car),
-          ],
-        ),
-      ),
-      onTap: () => _onLocationTap(context, car.id),
+      arguments: {
+        "carID": carID,
+        "brand": brand,
+        "model": model,
+        "year": year,
+        "month": month,
+        "km": km,
+        "typeOfFuel": typeOfFuel,
+        "price": price,
+        "description": description,
+        "photo": photo,
+        "car": car,
+      },
     );
   }
 }

@@ -24,7 +24,18 @@ class FourWheelsApp extends StatelessWidget {
           screen = Cars();
           break;
         case CarDetailRoute:
-          screen = CarDetail(arguments['id']);
+          screen = CarDetail(
+              arguments['carID'],
+              arguments['brand'],
+              arguments['model'],
+              arguments['year'],
+              arguments['month'],
+              arguments['km'],
+              arguments['typeOfFuel'],
+              arguments['price'],
+              arguments['description'],
+              arguments['photo'],
+              arguments['car']);
           break;
         default:
           return null;
@@ -35,11 +46,15 @@ class FourWheelsApp extends StatelessWidget {
 
   ThemeData _theme() {
     return ThemeData(
-        appBarTheme: AppBarTheme(textTheme: TextTheme(title: AppBarTextStyle)),
-        textTheme: TextTheme(
-            title: TitleTextStyle,
-            body1: Body1TextStyle,
-            caption: CaptionTextStyle,
-            subtitle: SubTitleTextStyle));
+      appBarTheme: AppBarTheme(
+        textTheme: TextTheme(headline6: AppBarTextStyle),
+      ),
+      textTheme: TextTheme(
+        headline6: TitleTextStyle,
+        bodyText2: Body1TextStyle,
+        caption: CaptionTextStyle,
+        subtitle2: SubTitleTextStyle,
+      ),
+    );
   }
 }

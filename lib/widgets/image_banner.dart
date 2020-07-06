@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class ImageBanner extends StatelessWidget {
   final String assetPath;
@@ -11,7 +12,7 @@ class ImageBanner extends StatelessWidget {
     return Container(
       constraints: BoxConstraints.expand(height: height),
       decoration: BoxDecoration(color: Colors.grey),
-      child: Image.asset(assetPath, fit: BoxFit.cover),
+      child: Image.memory(base64Decode(assetPath), fit: BoxFit.cover),
     );
   }
 }
